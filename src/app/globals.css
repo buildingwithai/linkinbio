@@ -72,6 +72,7 @@ body::before {
 .glassmorphic {
   background: rgba(13, 16, 45, 0.3);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(67, 82, 255, 0.2);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
@@ -260,4 +261,78 @@ body::before {
   border-radius: 50%;
   top: 20%;
   left: 20%;
+}
+
+/* Spotify card shimmer effect */
+@keyframes spotify-card-shimmer {
+  0% {
+    box-shadow: 0 0 5px rgba(100, 150, 255, 0.2);
+    border-color: rgba(67, 82, 255, 0.2);
+  }
+  25% {
+    box-shadow: 0 0 10px rgba(100, 200, 255, 0.5), inset 0 0 5px rgba(100, 200, 255, 0.3);
+    border-color: rgba(100, 150, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(150, 200, 255, 0.7), inset 0 0 8px rgba(150, 200, 255, 0.5);
+    border-color: rgba(150, 200, 255, 0.6);
+  }
+  75% {
+    box-shadow: 0 0 10px rgba(100, 200, 255, 0.5), inset 0 0 5px rgba(100, 200, 255, 0.3);
+    border-color: rgba(100, 150, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(100, 150, 255, 0.2);
+    border-color: rgba(67, 82, 255, 0.2);
+  }
+}
+
+.spotify-card {
+  animation: spotify-card-shimmer 4s ease-in-out infinite;
+  transition: all 0.5s ease;
+}
+
+/* Text shimmer animation for Latest Releases heading */
+@keyframes text-shimmer {
+  0% {
+    background-position: -200px;
+  }
+  100% {
+    background-position: 200px;
+  }
+}
+
+.shimmer-text {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  background: linear-gradient(
+    90deg, 
+    rgba(100, 180, 255, 0.3) 25%, 
+    rgba(150, 220, 255, 0.8) 50%, 
+    rgba(100, 180, 255, 0.3) 75%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 3s linear infinite;
+}
+
+/* Sequential letter animation */
+.sequential-letters span {
+  display: inline-block;
+  opacity: 0;
+  animation: fadeInLetter 0.05s forwards;
+}
+
+@keyframes fadeInLetter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 } 

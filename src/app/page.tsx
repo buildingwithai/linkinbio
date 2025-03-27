@@ -7,11 +7,19 @@ export default function Home() {
   const [shootingStars, setShootingStars] = useState<Array<{id: number, top: string, width: string, animationDuration: string}>>([]);
   const [isMounted, setIsMounted] = useState(false);
   const [triggerStar, setTriggerStar] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   
   // Set mounted state on client-side
   useEffect(() => {
     setIsMounted(true);
+    
+    // Set initial load to false after animation completes
+    const timer = setTimeout(() => {
+      setInitialLoad(false);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   // Track mouse position for star effect (client-side only)
@@ -112,7 +120,7 @@ export default function Home() {
       
       {/* Main content card */}
       <div 
-        className="glassmorphic rounded-xl p-6 border border-[#2a2a50] w-[90%] max-w-md my-8"
+        className={`glassmorphic rounded-xl p-6 border border-[#2a2a50] w-[90%] max-w-md my-8 ${initialLoad ? 'spotify-card' : ''}`}
         style={{ 
           display: 'block',
           visibility: 'visible',
@@ -164,8 +172,15 @@ export default function Home() {
         </div>
 
         {/* Spotify Player */}
-        <div className="bg-[#1a1a40]/60 p-4 rounded-md mb-6 border border-[#3a3a80]/50">
-          <h3 className="text-center mb-2 text-blue-300">Latest Releases</h3>
+        <div className="bg-[#1a1a40]/60 p-4 rounded-md mb-6 border border-[#3a3a80]/50 spotify-card">
+          <h3 className="text-center mb-2 text-blue-300 sequential-letters">
+            {isMounted && "Latest Releases".split('').map((letter, index) => (
+              <span key={index} style={{ animationDelay: `${index * 0.05}s` }}>
+                {letter === ' ' ? '\u00A0' : letter}
+              </span>
+            ))}
+            {!isMounted && <span className="shimmer-text">Latest Releases</span>}
+          </h3>
           <iframe 
             style={{borderRadius: '12px'}} 
             src="https://open.spotify.com/embed/artist/6J1Q7Dbs0he5E6RA3SktiH?utm_source=generator&theme=0" 
